@@ -9,7 +9,7 @@ a combination of different tools. In this case, we have a scikit-learn ML model 
 using [MLflow](https://mlflow.org/) and then served with [KFServing](https://github.com/kubeflow/kfserving).
 
 We assume that both FuseML infrastructure and the FuseML CLI are already installed, if not please
-check first the [quick start](quickstart.md) section.
+check first the [quick start](../quickstart.md) section.
 
 **1.** Install 3rd party ML tools
 

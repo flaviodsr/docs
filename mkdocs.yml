@@ -3,7 +3,9 @@ nav:
     - Home: index.md
     - About: about.md
     - Quick Start: quickstart.md
-    - Tutorials: tutorials.md
+    - Tutorials:
+        - Logistic Regression with MLFlow & KFServing: tutorials/kfserving-basic.md
+        - Training & Serving ML Models on GPU with NVIDIA Triton: tutorials/kfserving-triton-gpu.md
     - Architecture: architecture.md
     - API Reference: api.md
     - CLI Reference: cli.md
