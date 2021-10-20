@@ -222,57 +222,10 @@
   
   
   
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4">
-          Tutorials
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
-          <span class="md-nav__icon md-icon"></span>
-          Tutorials
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
-      <a href="../tutorials/kfserving-basic/" class="md-nav__link">
-        Logistic Regression with MLFlow & KFServing
+      <a href="../tutorials/" class="md-nav__link">
+        Tutorials
       </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../tutorials/kfserving-triton-gpu/" class="md-nav__link">
-        Training and Serving ML Models on GPU with FuseML & NVIDIA Triton
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -470,7 +423,7 @@
                 
                 <h1 id="fuseml-command-line-reference">FuseML Command-Line Reference</h1>
 <p>Using the FuseML CLI is a frictionless experience. Let's deep dive into the various options you may use with it.
-Let's start looking at the global capabilities. Simply type:</p>
+Let's start looking at the global capabilites. Simply type:</p>
 <pre><code class="language-bash">fuseml
 </code></pre>
 <p>you should get a similar output</p>
@@ -504,7 +457,7 @@ If you missed it, you can retrieve it at  any time with the following command:</
 </code></pre>
 <h2 id="codesets">Codesets</h2>
 <p>A FuseML Codeset represents a versioned collection of files - code files, scripts, configuration files, generally all the sources needed to implement, build and execute the machine learning logic. The codeset is the "link" between your local environment and the Git-a-like repository where you and your team are working. Use the CLI to publish your ML code to the remote FuseML orchestrator instance and later on assign it to compatible automation workflows.</p>
-<p>The codeset sub-command has the following capabilities:</p>
+<p>The codeset sub-command has the following capabilites:</p>
 <pre><code class="language-bash">&gt; fuseml codeset --help
 Perform operations on codesets
 
@@ -537,7 +490,7 @@ allows users to configure reusable workflows and thus avoid being locked into a 
 <p>3rd party tools that can be installed through the FuseML installer, such as MLFlow and KFServing, are automatically
 registered as FuseML extensions. The FuseML CLI can be used to manage additional extensions, such as registering
 AI/ML tools that are not managed by FuseML as FuseML extensions.</p>
-<p>The extension sub-command has the following capabilities:</p>
+<p>The extension sub-command has the following capabilites:</p>
 <pre><code class="language-bash">&gt; fuseml extension --help
 Perform operations on extensions
 
@@ -640,7 +593,7 @@ full description of the workflow format.</li>
 assignment, as well as every time a new version of the assigned codeset is published. The status, as well as the results(s)
 of a workflow run can be displayed with the CLI.</li>
 </ul>
-<p>The workflow sub-command has the following capabilities:</p>
+<p>The workflow sub-command has the following capabilites:</p>
 <pre><code class="language-bash">&gt; fuseml workflow --help
 Perform operations on workflows
 
@@ -669,7 +622,7 @@ Use &quot;fuseml workflow [command] --help&quot; for more information about a co
 </code></pre>
 <p>Following is an example of workflow definition in YAML format describing an end-to-end ML pipeline.
 It assumes that both MLFlow and KFServing have already been installed and registered with FuseML as
-extensions, as covered in the <a href="../tutorials/kfserving-basic/">tutorial</a> section:</p>
+extensions, as covered in the <a href="../tutorials/">tutorial</a> section:</p>
 <pre><code class="language-yml">name: example
 description: |
   End-to-end pipeline template that takes in an MLFlow compatible codeset,
@@ -741,7 +694,7 @@ Workflow &quot;example&quot; successfully created
 of a workflow running to completion and can be accessed via its exposed URL. The most common type of FuseML
 application is a prediction service. Use the CLI to display running applications, retrieve their URLs and
 delete them when no longer needed.</p>
-<p>The application sub-command has the following capabilities:</p>
+<p>The application sub-command has the following capabilites:</p>
 <pre><code class="language-bash">&gt; fuseml application --help
 Perform operations on applications
 
