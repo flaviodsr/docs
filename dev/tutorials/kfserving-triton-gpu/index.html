@@ -1252,7 +1252,7 @@ is how the classes are indexed:</p>
 <h3 id="benchmark-the-inference-service">Benchmark the Inference Service</h3>
 <p>To be able to compare the performance of the model serving on CPU, we can benchmark the inference service.</p>
 <p>Run the following command to create a Job workload that will benchmark the inference service:</p>
-<div class="highlight"><pre><span></span><code>kubectl create -f https://raw.githubusercontent.com/fuseml/docs/master/docs/tutorials/img/kfserving-triton-gpu/perf.yaml
+<div class="highlight"><pre><span></span><code>kubectl create -f https://raw.githubusercontent.com/fuseml/docs/main/docs/tutorials/img/kfserving-triton-gpu/perf.yaml
 </code></pre></div>
 <p>Wait for the Job to complete and check the logs for the results:</p>
 <div class="highlight"><pre><span></span><code>$ kubectl <span class="nb">wait</span> --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span><span class="nb">complete</span> --timeout 70s job -l <span class="nv">app</span><span class="o">=</span>triton-load-test <span class="o">&amp;&amp;</span> kubectl logs -l <span class="nv">app</span><span class="o">=</span>triton-load-test
@@ -1404,7 +1404,7 @@ it should have something like:</p>
 <h3 id="benchmark-the-inference-service-on-gpu">Benchmark the Inference Service on GPU</h3>
 <p>We can now benchmark the inference service running which uses the GPU to compute predictions.</p>
 <p>Run the following command again to benchmark the inference service, you can ignore the (<code>AlreadyExists</code> error):</p>
-<div class="highlight"><pre><span></span><code>kubectl create -f https://raw.githubusercontent.com/fuseml/docs/master/docs/tutorials/img/kfserving-triton-gpu/perf.yaml
+<div class="highlight"><pre><span></span><code>kubectl create -f https://raw.githubusercontent.com/fuseml/docs/main/docs/tutorials/img/kfserving-triton-gpu/perf.yaml
 </code></pre></div>
 <p>Wait for the Job to complete and check the logs for the results:</p>
 <div class="highlight"><pre><span></span><code>$ kubectl <span class="nb">wait</span> --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span><span class="nb">complete</span> --timeout 70s job -l <span class="nv">app</span><span class="o">=</span>triton-load-test <span class="o">&amp;&amp;</span> kubectl logs -l <span class="nv">app</span><span class="o">=</span>triton-load-test
