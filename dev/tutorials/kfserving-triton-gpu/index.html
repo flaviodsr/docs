@@ -393,6 +393,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#benchmark-the-inference-service" class="md-nav__link">
+    Benchmark the Inference Service
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -416,6 +423,13 @@
           <li class="md-nav__item">
   <a href="#validating-the-deployed-model-on-gpu" class="md-nav__link">
     Validating the Deployed model on GPU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-the-inference-service-on-gpu" class="md-nav__link">
+    Benchmark the Inference Service on GPU
   </a>
   
 </li>
@@ -635,6 +649,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#benchmark-the-inference-service" class="md-nav__link">
+    Benchmark the Inference Service
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -658,6 +679,13 @@
           <li class="md-nav__item">
   <a href="#validating-the-deployed-model-on-gpu" class="md-nav__link">
     Validating the Deployed model on GPU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-the-inference-service-on-gpu" class="md-nav__link">
+    Benchmark the Inference Service on GPU
   </a>
   
 </li>
@@ -1055,9 +1083,9 @@ command:</p>
 </li>
 </ol>
 <h4 id="create-the-kubernetes-cluster_1">Create the Kubernetes cluster</h4>
-<p>Run the following command to create a cluster with 2 nodes one of them labeled with <code>accelerator=gpu</code>,
-we also disable traefik and expose the http port to allow accessing the dashboards from FuseML
-extensions:</p>
+<p>Run the following command to create a cluster with 2 nodes where one of them is labeled with
+<code>accelerator=gpu</code>,we also disable traefik and expose the http port to allow accessing the
+dashboards from FuseML extensions:</p>
 <div class="highlight"><pre><span></span><code>k3d cluster create fuseml --image<span class="o">=</span>k3s:v1.21.5-k3s1-cuda --gpus<span class="o">=</span><span class="m">1</span> --agents <span class="m">2</span> --k3s-node-label <span class="s1">&#39;accelerator=gpu@agent:0&#39;</span>  --k3s-arg <span class="s1">&#39;--disable=traefik@server:0&#39;</span> -p <span class="s1">&#39;80:80@loadbalancer&#39;</span>
 </code></pre></div>
 <h4 id="install-fuseml">Install FuseML</h4>
@@ -1070,9 +1098,11 @@ Preparing to install fuseml-installer into /usr/local/bin
 fuseml-installer installed into /usr/local/bin/fuseml-installer
 Run <span class="s1">&#39;fuseml-installer --help&#39;</span> to see what you can <span class="k">do</span> with it.
 </code></pre></div>
-<p>Make sure you have <code>kubectl</code> and <code>helm</code> installed. If not, refer to the following links to install them:
-* kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
-* helm: https://helm.sh/docs/intro/install/</p>
+<p>Make sure you have <code>kubectl</code> and <code>helm</code> installed. If not, refer to the following links to install them:</p>
+<ul>
+<li>kubectl: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/</li>
+<li>helm: https://helm.sh/docs/intro/install/</li>
+</ul>
 </li>
 <li>
 <p>To install FuseML run the following command, note that we are also installing the mlflow and kfserving
@@ -1096,7 +1126,7 @@ The complete code for model training is available <a href="https://github.com/fu
 <p>The following steps describe how to use FuseML to train the model and serve it.</p>
 <ol>
 <li>
-<p>Clone the fuseml/examples repository and register the <code>keras</code> example code as a FuseML codeset:</p>
+<p>Clone the <code>fuseml/examples</code> repository and register the <code>keras</code> example code as a FuseML codeset:</p>
 <div class="highlight"><pre><span></span><code>$ git clone https://github.com/fuseml/examples.git
 
 $ fuseml codeset register -n cifar10 -p demo examples/codesets/mlflow/keras
@@ -1105,20 +1135,19 @@ Codeset http://gitea.192.168.86.74.nip.io/demo/cifar10.git successfully register
 </code></pre></div>
 </li>
 <li>
-<p>Create a FuseML workflow, note that the workflow includes steps for training and serving the trained
-model:</p>
+<p>Create a FuseML workflow:</p>
 <div class="highlight"><pre><span></span><code>$ fuseml workflow create examples/workflows/mlflow-e2e.yaml
 Workflow <span class="s2">&quot;mlflow-e2e&quot;</span> successfully created
 </code></pre></div>
+<p>This workflow includes steps for training and serving the model. When serving <code>Keras</code> models, unless
+<code>predictor</code> is set to a specific value instead of <code>auto</code> on the workflow, FuseML will automatically
+serve the model using NVIDIA Triton Inference Server.</p>
 </li>
 <li>
 <p>Assign the <code>mlflow-e2e</code> workflow to the <code>cifar10</code> codeset:</p>
 <div class="highlight"><pre><span></span><code>$ fuseml workflow assign -c cifar10 -p demo -n mlflow-e2e
 Workflow <span class="s2">&quot;mlflow-e2e&quot;</span> assigned to codeset <span class="s2">&quot;demo/cifar10&quot;</span>
 </code></pre></div>
-<p>This workflow includes steps for training and serving the model. When serving <code>Keras</code> models, unless
-<code>predictor</code> is set to a specific value instead of <code>auto</code> on the workflow, FuseML will automatically
-serve the model using NVIDIA Triton Inference Server.</p>
 </li>
 <li>
 <p>Wait for the workflow run to finish running:</p>
@@ -1220,6 +1249,23 @@ is how the classes are indexed:</p>
 </code></pre></div>
 <p>With that information, we can see that the model correctly predicted that the image is a deer
 (higher number on index 4).</p>
+<h3 id="benchmark-the-inference-service">Benchmark the Inference Service</h3>
+<p>To be able to compare the performance of the model serving on CPU, we can benchmark the inference service.</p>
+<p>Run the following command to create a Job workload that will benchmark the inference service:</p>
+<div class="highlight"><pre><span></span><code>kubectl create -f https://raw.githubusercontent.com/fuseml/docs/master/docs/tutorials/img/kfserving-triton-gpu/perf.yaml
+</code></pre></div>
+<p>Wait for the Job to complete and check the logs for the results:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl <span class="nb">wait</span> --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span><span class="nb">complete</span> --timeout 70s job -l <span class="nv">app</span><span class="o">=</span>triton-load-test <span class="o">&amp;&amp;</span> kubectl logs -l <span class="nv">app</span><span class="o">=</span>triton-load-test
+Requests      <span class="o">[</span>total, rate, throughput<span class="o">]</span>         <span class="m">6000</span>, <span class="m">100</span>.02, <span class="m">100</span>.01
+Duration      <span class="o">[</span>total, attack, wait<span class="o">]</span>             <span class="m">59</span>.993s, <span class="m">59</span>.99s, <span class="m">3</span>.359ms
+Latencies     <span class="o">[</span>min, mean, <span class="m">50</span>, <span class="m">90</span>, <span class="m">95</span>, <span class="m">99</span>, max<span class="o">]</span>  <span class="m">3</span>.023ms, <span class="m">3</span>.962ms, <span class="m">3</span>.593ms, <span class="m">4</span>.72ms, <span class="m">5</span>.095ms, <span class="m">8</span>.187ms, <span class="m">74</span>.576ms
+Bytes In      <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">1848000</span>, <span class="m">308</span>.00
+Bytes Out     <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">868044000</span>, <span class="m">144674</span>.00
+Success       <span class="o">[</span>ratio<span class="o">]</span>                           <span class="m">100</span>.00%
+Status Codes  <span class="o">[</span>code:count<span class="o">]</span>                      <span class="m">200</span>:6000  
+Error Set:
+</code></pre></div>
+<p>With the benchmark results we can then continue to deploy the model to the GPU, and compare its performance.</p>
 <h2 id="training-and-serving-on-gpu">Training and Serving on GPU</h2>
 <p>Now that the model is validated, we can proceed to train and serve the model with higher accuracy on GPU.</p>
 <h3 id="training-serving-on-gpu-with-fuseml">Training &amp; Serving on GPU with FuseML</h3>
@@ -1355,6 +1401,34 @@ it should have something like:</p>
 </code></pre></div>
 <p>Once again we can confirm that the model correctly predicted that the image is a deer
 (higher number on index 4).</p>
+<h3 id="benchmark-the-inference-service-on-gpu">Benchmark the Inference Service on GPU</h3>
+<p>We can now benchmark the inference service running which uses the GPU to compute predictions.</p>
+<p>Run the following command again to benchmark the inference service, you can ignore the (<code>AlreadyExists</code> error):</p>
+<div class="highlight"><pre><span></span><code>kubectl create -f https://raw.githubusercontent.com/fuseml/docs/master/docs/tutorials/img/kfserving-triton-gpu/perf.yaml
+</code></pre></div>
+<p>Wait for the Job to complete and check the logs for the results:</p>
+<div class="highlight"><pre><span></span><code>$ kubectl <span class="nb">wait</span> --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span><span class="nb">complete</span> --timeout 70s job -l <span class="nv">app</span><span class="o">=</span>triton-load-test <span class="o">&amp;&amp;</span> kubectl logs -l <span class="nv">app</span><span class="o">=</span>triton-load-test
+Requests      <span class="o">[</span>total, rate, throughput<span class="o">]</span>         <span class="m">6000</span>, <span class="m">100</span>.02, <span class="m">100</span>.01
+Duration      <span class="o">[</span>total, attack, wait<span class="o">]</span>             <span class="m">59</span>.995s, <span class="m">59</span>.99s, <span class="m">4</span>.576ms
+Latencies     <span class="o">[</span>min, mean, <span class="m">50</span>, <span class="m">90</span>, <span class="m">95</span>, <span class="m">99</span>, max<span class="o">]</span>  <span class="m">2</span>.305ms, <span class="m">194</span>.165ms, <span class="m">9</span>.2ms, <span class="m">21</span>.552ms, <span class="m">1</span>.758s, <span class="m">4</span>.058s, <span class="m">4</span>.465s <span class="o">(</span><span class="m">1</span><span class="o">)</span>
+Bytes In      <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">1842000</span>, <span class="m">307</span>.00
+Bytes Out     <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">868044000</span>, <span class="m">144674</span>.00
+Success       <span class="o">[</span>ratio<span class="o">]</span>                           <span class="m">100</span>.00%
+Status Codes  <span class="o">[</span>code:count<span class="o">]</span>                      <span class="m">200</span>:6000
+Error Set:
+Requests      <span class="o">[</span>total, rate, throughput<span class="o">]</span>         <span class="m">6000</span>, <span class="m">100</span>.02, <span class="m">100</span>.01
+Duration      <span class="o">[</span>total, attack, wait<span class="o">]</span>             <span class="m">59</span>.993s, <span class="m">59</span>.99s, <span class="m">3</span>.359ms
+Latencies     <span class="o">[</span>min, mean, <span class="m">50</span>, <span class="m">90</span>, <span class="m">95</span>, <span class="m">99</span>, max<span class="o">]</span>  <span class="m">3</span>.023ms, <span class="m">3</span>.962ms, <span class="m">3</span>.593ms, <span class="m">4</span>.72ms, <span class="m">5</span>.095ms, <span class="m">8</span>.187ms, <span class="m">74</span>.576ms <span class="o">(</span><span class="m">2</span><span class="o">)</span>
+Bytes In      <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">1848000</span>, <span class="m">308</span>.00
+Bytes Out     <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">868044000</span>, <span class="m">144674</span>.00
+Success       <span class="o">[</span>ratio<span class="o">]</span>                           <span class="m">100</span>.00%
+Status Codes  <span class="o">[</span>code:count<span class="o">]</span>                      <span class="m">200</span>:6000  
+Error Set:
+</code></pre></div>
+<p>The output from the above command shows the benchmark results for the inference service running on GPU (1).
+And also the results from the previous run when the model was being served using only the CPU (2).</p>
+<p>The interesting results are displayed by the <code>Latency</code> metrics. The latency results for the inference service
+running on GPU (1) are much lower than the latency results for the inference service running on CPU (2).</p>
 <h2 id="cleanup">Cleanup</h2>
 <p>Delete the cluster by running the following command:</p>
 <div class="highlight"><pre><span></span><code>k3d cluster delete fuseml
