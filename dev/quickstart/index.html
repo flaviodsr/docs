@@ -283,10 +283,57 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
-      <a href="../tutorials/" class="md-nav__link">
-        Tutorials
+      <a href="../tutorials/kfserving-basic/" class="md-nav__link">
+        Logistic Regression with MLFlow & KFServing
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/kfserving-triton-gpu/" class="md-nav__link">
+        Training & Serving ML Models on GPU with NVIDIA Triton
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -503,7 +550,7 @@ kubectl get pods -n gitea -o wide
 # Let's check tekton
 kubectl get pods -n tekton-pipelines -o wide
 </code></pre>
-<p>If everything is in running or completed status, you are good to go. Continue on to the <a href="../tutorials/">tutorial</a> section and start to have fun with FuseML.</p>
+<p>If everything is in running or completed status, you are good to go. Continue on to the <a href="../tutorials/kfserving-basic/">tutorial</a> section and start to have fun with FuseML.</p>
                 
               
               
@@ -539,13 +586,13 @@ kubectl get pods -n tekton-pipelines -o wide
       
       
         
-        <a href="../tutorials/" class="md-footer__link md-footer__link--next" aria-label="Next: Tutorials" rel="next">
+        <a href="../tutorials/kfserving-basic/" class="md-footer__link md-footer__link--next" aria-label="Next: Logistic Regression with MLFlow &amp; KFServing" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Tutorials
+              Logistic Regression with MLFlow & KFServing
             </div>
           </div>
           <div class="md-footer__button md-icon">
