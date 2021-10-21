@@ -1256,13 +1256,13 @@ is how the classes are indexed:</p>
 </code></pre></div>
 <p>Wait for the Job to complete and check the logs for the results:</p>
 <div class="highlight"><pre><span></span><code>$ kubectl <span class="nb">wait</span> --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span><span class="nb">complete</span> --timeout 70s job -l <span class="nv">app</span><span class="o">=</span>triton-load-test <span class="o">&amp;&amp;</span> kubectl logs -l <span class="nv">app</span><span class="o">=</span>triton-load-test
-Requests      <span class="o">[</span>total, rate, throughput<span class="o">]</span>         <span class="m">6000</span>, <span class="m">100</span>.02, <span class="m">100</span>.01
-Duration      <span class="o">[</span>total, attack, wait<span class="o">]</span>             <span class="m">59</span>.993s, <span class="m">59</span>.99s, <span class="m">3</span>.359ms
-Latencies     <span class="o">[</span>min, mean, <span class="m">50</span>, <span class="m">90</span>, <span class="m">95</span>, <span class="m">99</span>, max<span class="o">]</span>  <span class="m">3</span>.023ms, <span class="m">3</span>.962ms, <span class="m">3</span>.593ms, <span class="m">4</span>.72ms, <span class="m">5</span>.095ms, <span class="m">8</span>.187ms, <span class="m">74</span>.576ms
-Bytes In      <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">1848000</span>, <span class="m">308</span>.00
-Bytes Out     <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">868044000</span>, <span class="m">144674</span>.00
+Requests      <span class="o">[</span>total, rate, throughput<span class="o">]</span>         <span class="m">36000</span>, <span class="m">600</span>.02, <span class="m">599</span>.83
+Duration      <span class="o">[</span>total, attack, wait<span class="o">]</span>             1m0s, <span class="m">59</span>.998s, <span class="m">18</span>.336ms
+Latencies     <span class="o">[</span>min, mean, <span class="m">50</span>, <span class="m">90</span>, <span class="m">95</span>, <span class="m">99</span>, max<span class="o">]</span>  <span class="m">3</span>.328ms, <span class="m">15</span>.91ms, <span class="m">7</span>.209ms, <span class="m">26</span>.135ms, <span class="m">54</span>.551ms, <span class="m">205</span>.604ms, <span class="m">307</span>.993ms
+Bytes In      <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">11088000</span>, <span class="m">308</span>.00
+Bytes Out     <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">5208264000</span>, <span class="m">144674</span>.00
 Success       <span class="o">[</span>ratio<span class="o">]</span>                           <span class="m">100</span>.00%
-Status Codes  <span class="o">[</span>code:count<span class="o">]</span>                      <span class="m">200</span>:6000  
+Status Codes  <span class="o">[</span>code:count<span class="o">]</span>                      <span class="m">200</span>:36000
 Error Set:
 </code></pre></div>
 <p>With the benchmark results we can then continue to deploy the model to the GPU, and compare its performance.</p>
@@ -1408,21 +1408,21 @@ it should have something like:</p>
 </code></pre></div>
 <p>Wait for the Job to complete and check the logs for the results:</p>
 <div class="highlight"><pre><span></span><code>$ kubectl <span class="nb">wait</span> --for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span><span class="nb">complete</span> --timeout 70s job -l <span class="nv">app</span><span class="o">=</span>triton-load-test <span class="o">&amp;&amp;</span> kubectl logs -l <span class="nv">app</span><span class="o">=</span>triton-load-test
-Requests      <span class="o">[</span>total, rate, throughput<span class="o">]</span>         <span class="m">6000</span>, <span class="m">100</span>.02, <span class="m">100</span>.01
-Duration      <span class="o">[</span>total, attack, wait<span class="o">]</span>             <span class="m">59</span>.995s, <span class="m">59</span>.99s, <span class="m">4</span>.576ms
-Latencies     <span class="o">[</span>min, mean, <span class="m">50</span>, <span class="m">90</span>, <span class="m">95</span>, <span class="m">99</span>, max<span class="o">]</span>  <span class="m">2</span>.305ms, <span class="m">194</span>.165ms, <span class="m">9</span>.2ms, <span class="m">21</span>.552ms, <span class="m">1</span>.758s, <span class="m">4</span>.058s, <span class="m">4</span>.465s <span class="o">(</span><span class="m">1</span><span class="o">)</span>
-Bytes In      <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">1842000</span>, <span class="m">307</span>.00
-Bytes Out     <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">868044000</span>, <span class="m">144674</span>.00
+Requests      <span class="o">[</span>total, rate, throughput<span class="o">]</span>         <span class="m">36000</span>, <span class="m">600</span>.02, <span class="m">599</span>.99
+Duration      <span class="o">[</span>total, attack, wait<span class="o">]</span>             1m0s, <span class="m">59</span>.998s, <span class="m">2</span>.35ms
+<span class="hll">Latencies     <span class="o">[</span>min, mean, <span class="m">50</span>, <span class="m">90</span>, <span class="m">95</span>, <span class="m">99</span>, max<span class="o">]</span>  <span class="m">1</span>.974ms, <span class="m">3</span>.086ms, <span class="m">2</span>.697ms, <span class="m">3</span>.542ms, <span class="m">4</span>.762ms, <span class="m">10</span>.532ms, <span class="m">72</span>.138ms <span class="o">(</span><span class="m">1</span><span class="o">)</span>
+</span>Bytes In      <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">11052000</span>, <span class="m">307</span>.00
+Bytes Out     <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">5208264000</span>, <span class="m">144674</span>.00
 Success       <span class="o">[</span>ratio<span class="o">]</span>                           <span class="m">100</span>.00%
-Status Codes  <span class="o">[</span>code:count<span class="o">]</span>                      <span class="m">200</span>:6000
+Status Codes  <span class="o">[</span>code:count<span class="o">]</span>                      <span class="m">200</span>:36000
 Error Set:
-Requests      <span class="o">[</span>total, rate, throughput<span class="o">]</span>         <span class="m">6000</span>, <span class="m">100</span>.02, <span class="m">100</span>.01
-Duration      <span class="o">[</span>total, attack, wait<span class="o">]</span>             <span class="m">59</span>.993s, <span class="m">59</span>.99s, <span class="m">3</span>.359ms
-Latencies     <span class="o">[</span>min, mean, <span class="m">50</span>, <span class="m">90</span>, <span class="m">95</span>, <span class="m">99</span>, max<span class="o">]</span>  <span class="m">3</span>.023ms, <span class="m">3</span>.962ms, <span class="m">3</span>.593ms, <span class="m">4</span>.72ms, <span class="m">5</span>.095ms, <span class="m">8</span>.187ms, <span class="m">74</span>.576ms <span class="o">(</span><span class="m">2</span><span class="o">)</span>
-Bytes In      <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">1848000</span>, <span class="m">308</span>.00
-Bytes Out     <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">868044000</span>, <span class="m">144674</span>.00
+Requests      <span class="o">[</span>total, rate, throughput<span class="o">]</span>         <span class="m">36000</span>, <span class="m">600</span>.02, <span class="m">599</span>.83
+Duration      <span class="o">[</span>total, attack, wait<span class="o">]</span>             1m0s, <span class="m">59</span>.998s, <span class="m">18</span>.336ms
+<span class="hll">Latencies     <span class="o">[</span>min, mean, <span class="m">50</span>, <span class="m">90</span>, <span class="m">95</span>, <span class="m">99</span>, max<span class="o">]</span>  <span class="m">3</span>.328ms, <span class="m">15</span>.91ms, <span class="m">7</span>.209ms, <span class="m">26</span>.135ms, <span class="m">54</span>.551ms, <span class="m">205</span>.604ms, <span class="m">307</span>.993ms <span class="o">(</span><span class="m">2</span><span class="o">)</span>
+</span>Bytes In      <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">11088000</span>, <span class="m">308</span>.00
+Bytes Out     <span class="o">[</span>total, mean<span class="o">]</span>                     <span class="m">5208264000</span>, <span class="m">144674</span>.00
 Success       <span class="o">[</span>ratio<span class="o">]</span>                           <span class="m">100</span>.00%
-Status Codes  <span class="o">[</span>code:count<span class="o">]</span>                      <span class="m">200</span>:6000  
+Status Codes  <span class="o">[</span>code:count<span class="o">]</span>                      <span class="m">200</span>:36000
 Error Set:
 </code></pre></div>
 <p>The output from the above command shows the benchmark results for the inference service running on GPU (1).
